@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flt_hc_hud/flt_hc_hud.dart';
@@ -19,8 +18,7 @@ class ImageDemoPage extends StatefulWidget {
 }
 
 class _ImageDemoPage extends State<ImageDemoPage> {
-  String domain =
-      'https://gitee.com/hongchenchen/test_photos_lib/raw/master/pic/';
+  String domain = 'https://gitee.com/hongchenchen/test_photos_lib/raw/master/pic/';
   final List<String> _bigPhotos = <String>[];
   final List<String> _thumbPhotos = <String>[];
   final List<String> _heroTags = <String>[];
@@ -64,11 +62,8 @@ class _ImageDemoPage extends State<ImageDemoPage> {
             margin: const EdgeInsets.all(5),
             child: GridView.builder(
               itemCount: _thumbPhotos.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                  childAspectRatio: 1),
+              gridDelegate:
+                  const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 5, mainAxisSpacing: 5, childAspectRatio: 1),
               itemBuilder: (BuildContext context, int index) {
                 return _buildCell(context, index);
               },
@@ -104,8 +99,7 @@ class _ImageDemoPage extends State<ImageDemoPage> {
           thumbImageUrlBuilder: (int index) {
             return _thumbPhotos[index];
           },
-          positions: (BuildContext context) =>
-              <Positioned>[_buildCloseBtn(context)],
+          positions: (BuildContext context) => <Positioned>[_buildCloseBtn(context)],
           positionBuilders: <PositionBuilder>[
             if (Platform.isIOS || Platform.isAndroid) _buildSaveImageBtn,
             _buildGuide,
@@ -116,9 +110,7 @@ class _ImageDemoPage extends State<ImageDemoPage> {
         // You can push directly.
         // 可以直接push
         // photoBrowser.push(context);
-        photoBrowser
-            .push(context, page: HCHud(child: photoBrowser))
-            .then((value) {
+        photoBrowser.push(context, page: HCHud(child: photoBrowser)).then((value) {
           if (kDebugMode) {
             print('PhotoBrowser closed');
           }
@@ -126,15 +118,12 @@ class _ImageDemoPage extends State<ImageDemoPage> {
       },
       child: Stack(
         children: [
-          Positioned.fill(
-              child: Container(color: Colors.grey.withOpacity(0.6))),
+          Positioned.fill(child: Container(color: Colors.grey.withOpacity(0.6))),
           Positioned.fill(
             child: Hero(
                 tag: _heroTags[cellIndex],
                 child: _buildImage(cellIndex),
-                placeholderBuilder:
-                    (BuildContext context, Size heroSize, Widget child) =>
-                        child),
+                placeholderBuilder: (BuildContext context, Size heroSize, Widget child) => child),
           ),
         ],
       ),
@@ -167,8 +156,7 @@ class _ImageDemoPage extends State<ImageDemoPage> {
     );
   }
 
-  Positioned _buildSaveImageBtn(
-      BuildContext context, int curIndex, int totalNum) {
+  Positioned _buildSaveImageBtn(BuildContext context, int curIndex, int totalNum) {
     return Positioned(
       left: 20,
       bottom: 20,
@@ -222,12 +210,10 @@ class _ImageDemoPage extends State<ImageDemoPage> {
 
           // Save image to album
           // 将图片保存到相册
-          var byteData =
-              await imageInfo.image.toByteData(format: ImageByteFormat.png);
+          var byteData = await imageInfo.image.toByteData(format: ImageByteFormat.png);
           if (byteData != null) {
             Uint8List uint8list = byteData.buffer.asUint8List();
-            var result = await ImageGallerySaver.saveImage(
-                Uint8List.fromList(uint8list));
+            var result = await ImageGallerySaver.saveImage(Uint8List.fromList(uint8list));
             if (!mounted) return;
             if (result != null) {
               HCHud.of(context)?.showSuccessAndDismiss(text: '保存成功');
