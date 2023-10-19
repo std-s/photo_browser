@@ -7,17 +7,18 @@ enum OperateType {
 }
 
 class PhotoBrowserBottomBar extends StatelessWidget {
-  PhotoBrowserBottomBar({Key? key}) : super(key: key);
-  ValueChanged<OperateType>? _onPressedButton;
+  PhotoBrowserBottomBar({Key? key, this.onPressedButton}) : super(key: key);
+   ValueChanged<OperateType>? onPressedButton;
 
   PhotoBrowserBottomBar.show(BuildContext context, {ValueChanged<OperateType>? onPressedButton}) {
-    _onPressedButton = onPressedButton;
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         context: context,
         builder: (context) {
-          return PhotoBrowserBottomBar();
+          return PhotoBrowserBottomBar(
+            onPressedButton: onPressedButton,
+          );
         });
   }
   @override
@@ -42,10 +43,12 @@ class PhotoBrowserBottomBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildItem(Icon(Icons.screen_share_outlined), 'forward', onPressed: () {
-                _onPressedButton?.call(OperateType.forward);
+                Navigator.of(context).pop();
+                onPressedButton?.call(OperateType.forward);
               }),
               _buildItem(Icon(Icons.save_alt), 'save', onPressed: () {
-                _onPressedButton?.call(OperateType.save);
+                Navigator.of(context).pop();
+                onPressedButton?.call(OperateType.save);
               })
             ],
           ),
